@@ -1,0 +1,145 @@
+#form {
+    background-color: rgb(249, 246, 246);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+}
+
+form,
+#contato,
+#local {
+    background-color: #fff;
+}
+
+#img {
+    background: #000 url('../../img/fundo_sobre.png') no-repeat center center fixed;
+    background-size: cover;
+    height: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#img h2 {
+    color: #fff;
+    font-size: 3em;
+}
+
+#img p {
+    color: #fff;
+    font-size: 1.2em;
+}
+
+#formulario {
+    padding: 20px;
+}
+
+#contatos {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 3px 3px #00000074;
+    padding: 20px;
+    gap: 50px;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #00000070;
+    border-radius: 10px;
+}
+
+#descricao textarea {
+    height: 200px;
+    resize: none;
+}
+
+form button {
+    background-color: green;
+    color: #fff;
+    height: 40px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form button:hover {
+    background-color: rgb(31, 240, 31);
+}
+
+#info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 30px;
+    width: 100%;
+}
+
+#contato {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 2px 3px 3px #00000074;
+    padding: 15px;
+}
+
+#contato p {
+    color: #00000098;
+}
+
+#local {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 2px 3px 3px #00000074;
+    padding: 15px;
+}
+
+#local iframe {
+    border: 0;
+    height: 300px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #contatos {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    form {
+        width: 90%;
+    }
+
+    form input,
+    form textarea {
+        width: 100%;
+    }
+
+    #descricao textarea {
+        height: 150px;
+    }
+
+    #contato,
+    #local {
+        width: 90%;
+    }
+}

@@ -1,0 +1,106 @@
+.mapa-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.mapa-section h1 {
+  margin-bottom: 10px;
+}
+
+#form {
+  background: #fff;
+  width: 90%;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  text-align: left;
+}
+
+.filter {
+  margin-bottom: 15px;
+}
+
+.filter label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.filter select,
+.filter input {
+  width: 95%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.btn-filtrar {
+  background: #2e8b57;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-filtrar:hover {
+  background: #256d45;
+}
+
+#mapa {
+  background: #fff;
+  width: 90%;
+  margin: 20px auto;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+#status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-item span {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+#mapeamento {
+  width: 90%;
+  margin: 20px auto;
+}
+
+#mapeamento iframe {
+  width: 100%;
+  height: 450px;
+  border: 0;
+  border-radius: 10px;
+}
+
+/* === Responsividade === */
+@media (max-width: 700px) {
+  #form,
+  #mapa,
+  #mapeamento {
+    width: 85%;
+  }
+
+  .btn-filtrar {
+    width: 100%;
+  }
+}

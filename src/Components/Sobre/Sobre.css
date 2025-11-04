@@ -1,0 +1,161 @@
+.sobre {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* --- Cabeçalho / imagem principal --- */
+.img-sobre {
+  background: #000 url('../../img/fundo_sobre.png') no-repeat center center fixed;
+  background-size: cover;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.img-sobre h2 {
+  color: #fff;
+  font-size: 3em;
+}
+
+.img-sobre p {
+  color: #fff;
+  font-size: 1.2em;
+}
+
+/* --- Valores --- */
+.valores {
+  width: 90%;
+  margin: 50px auto;
+}
+
+.valores-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.card {
+  background: none;
+  border: none;
+  text-align: center;
+  width: 30%;
+  padding: 10px;
+}
+
+.card div {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+}
+
+/* --- História --- */
+.historia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.historia h2 {
+  font-size: 2em;
+}
+
+.historia .subtitulo {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.historia-lista {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 20px;
+}
+
+.historia-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px;
+}
+
+.ano {
+  background-color: green;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 140px;
+  border-radius: 50%;
+}
+
+.texto {
+  text-align: left;
+}
+
+/* --- Organização --- */
+.organizacao {
+  background-color: rgb(47, 169, 47);
+  color: #fff;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.organizacao-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  width: 90%;
+  margin: 20px auto 0;
+}
+
+.org-card {
+  background-color: rgb(70, 194, 70);
+  border-radius: 10px;
+  width: 35%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.org-icon {
+  height: 60px;
+  width: 60px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 700px) {
+  .valores-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 80%;
+  }
+
+  .org-card {
+    width: 80%;
+  }
+
+  .img-sobre h2 {
+    font-size: 2em;
+  }
+
+  .img-sobre p {
+    font-size: 1.1em;
+  }
+}

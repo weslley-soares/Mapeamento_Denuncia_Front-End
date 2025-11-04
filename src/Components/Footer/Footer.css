@@ -1,0 +1,14 @@
+.site-footer {
+    color: #fff;
+    padding:12px 0;
+    text-align:center;
+    background:#fff;
+    margin-top:24px;
+    bottom: 0;
+    width: 100%;
+
+    .container {
+        background-color: #0e1624;
+        padding: 5px;
+    }
+}
