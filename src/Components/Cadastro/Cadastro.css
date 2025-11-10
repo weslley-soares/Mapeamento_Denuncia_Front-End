@@ -1,0 +1,129 @@
+/* Imagem lateral */
+#imagem-cadastro {
+  background: #000 url('../../img/fundo_home.png') no-repeat center center;
+  background-size: cover;
+  width: 35%;
+  height: 850px;
+  border-radius: 10px 0 0 10px;
+  margin: auto 0;
+}
+
+/* Seção do formulário */
+.cadastro-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  
+  form {
+    height: 800px;
+    margin: auto 0;
+  }
+}
+
+/* Título e texto */
+.cadastro-section h1 {
+  color: #1b3b24;
+  margin-bottom: 10px;
+}
+
+.cadastro-section p {
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.form-cadastro .input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.form-cadastro label {
+  display: block;
+  font-weight: bold;
+  color: #1b3b24;
+  margin-bottom: 5px;
+}
+
+.form-cadastro input,
+.form-cadastro select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.form-cadastro input:focus,
+.form-cadastro select:focus {
+  border-color: #1b3b24;
+}
+
+/* Botão */
+.btn-cadastro {
+  background-color: #1b3b24;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.btn-cadastro:hover {
+  background-color: #267f4f;
+}
+
+/* Mensagens e links */
+.msg {
+  margin-top: 15px;
+  color: #333;
+  font-weight: 500;
+}
+
+.login-link {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #1b3b24;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  #imagem-cadastro {
+    display: none;
+  }
+
+  .cadastro-section {
+    background:linear-gradient(90deg,#1e8449,#0b7bdc);
+    width: 100%;
+    height: 1000px;
+    padding: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    form {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      width: 80%;
+      height: 945px;
+
+      input {
+        width: 170%;
+      }
+    }
+  }
+}

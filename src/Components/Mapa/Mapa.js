@@ -1,14 +1,49 @@
-import { useState } from 'react';
-import './Mapa.css';
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "./Mapa.css";
+
+const API_URL = "http://localhost:8081/denuncias"; // backend Node.js
 
 export default function Mapa() {
   const [filter, setFilter] = useState({
-    bairro: '',
-    tipo: '',
-    status: '',
-    dataIn: '',
-    dataFim: '',
+    bairro: "",
+    tipo: "",
+    status: "",
+    dataIn: "",
+    dataFim: "",
   });
+
+  const [denuncias, setDenuncias] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // corrigir ícone padrão do Leaflet
+  delete L.Icon.Default.prototype._getIconUrl;
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+    iconUrl: require("leaflet/dist/images/marker-icon.png"),
+    shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+  });
+
+  // carregar denúncias ao abrir
+  useEffect(() => {
+    carregarDenuncias();
+  }, []);
+
+  const carregarDenuncias = async (filters = {}) => {
+    try {
+      setLoading(true);
+      const query = new URLSearchParams(filters).toString();
+      const res = await fetch(`${API_URL}?${query}`);
+      const data = await res.json();
+      setDenuncias(data);
+    } catch (err) {
+      console.error("Erro ao carregar denúncias:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,26 +52,15 @@ export default function Mapa() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const res = await fetch('http://localhost:8081/filter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(filter),
-      });
-
-      const data = await res.json();
-      alert(data.msg || 'Filtro aplicado com sucesso');
-    } catch (err) {
-      console.error('Erro ao buscar informações:', err);
-    }
+    carregarDenuncias(filter);
   };
 
   return (
     <section className="mapa-section">
       <h1>Mapa de Denúncias Ambientais</h1>
       <p>
-        Visualize as denúncias ambientais em João Pessoa e acompanhe o status de cada uma.
+        Visualize as denúncias ambientais em João Pessoa e acompanhe o status de
+        cada uma.
       </p>
 
       <form id="form" onSubmit={handleSubmit}>
@@ -48,15 +72,15 @@ export default function Mapa() {
           value={filter.bairro}
           onChange={handleChange}
           options={[
-            'Todos os Bairros',
-            'Centro',
-            'Tambaú',
-            'Mangabeira',
-            'Cabo Branco',
-            'Manaíra',
-            'Bancários',
-            'Bessa',
-            'Torre',
+            "Todos os Bairros",
+            "Centro",
+            "Tambaú",
+            "Mangabeira",
+            "Cabo Branco",
+            "Manaíra",
+            "Bancários",
+            "Bessa",
+            "Torre",
           ]}
         />
 
@@ -66,15 +90,15 @@ export default function Mapa() {
           value={filter.tipo}
           onChange={handleChange}
           options={[
-            'Todos os Tipos',
-            'Descarte Irregular de Lixo',
-            'Poluição Sonora',
-            'Queimada Irregular',
-            'Poluição do Ar',
-            'Desmatamento Ilegal',
-            'Poluição de Água',
-            'Maus Tratos a Animais',
-            'Construção Irregular',
+            "Todos os Tipos",
+            "Descarte Irregular de Lixo",
+            "Poluição Sonora",
+            "Queimada Irregular",
+            "Poluição do Ar",
+            "Desmatamento Ilegal",
+            "Poluição de Água",
+            "Maus Tratos a Animais",
+            "Construção Irregular",
           ]}
         />
 
@@ -84,11 +108,11 @@ export default function Mapa() {
           value={filter.status}
           onChange={handleChange}
           options={[
-            'Todos os Status',
-            'Pendentes',
-            'Em Andamento',
-            'Resolvidas',
-            'Arquivadas',
+            "Todos os Status",
+            "Pendente",
+            "Em Andamento",
+            "Concluído",
+            "Arquivado",
           ]}
         />
 
@@ -112,26 +136,49 @@ export default function Mapa() {
           />
         </div>
 
-        <button type="submit" className="btn-filtrar">Aplicar Filtros</button>
+        <button type="submit" className="btn-filtrar">
+          Aplicar Filtros
+        </button>
       </form>
 
       <div id="mapa">
         <h3>Mapa Interativo</h3>
         <div id="status">
           <StatusLabel cor="red" texto="Pendente" />
-          <StatusLabel cor="yellow" texto="Em Andamento" />
-          <StatusLabel cor="green" texto="Resolvida" />
-          <StatusLabel cor="gray" texto="Arquivada" />
+          <StatusLabel cor="orange" texto="Em Andamento" />
+          <StatusLabel cor="green" texto="Concluído" />
+          <StatusLabel cor="gray" texto="Arquivado" />
         </div>
-      </div>
 
-      <div id="mapeamento">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15836.13129252998!2d-34.983713808609934!3d-7.122194079498792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1760226859869!5m2!1spt-BR!2sbr"
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
+        {loading ? (
+          <p>Carregando denúncias...</p>
+        ) : (
+          <MapContainer
+            center={[-7.1153, -34.861]} // João Pessoa
+            zoom={12}
+            style={{ height: "500px", width: "100%", borderRadius: "8px" }}
+          >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+            {denuncias.map((d) => (
+              <Marker
+                key={d.id}
+                position={[d.latitude, d.longitude]}
+                icon={getMarkerIcon(d.status)}
+              >
+                <Popup>
+                  <strong>{d.titulo}</strong>
+                  <br />
+                  <b>Status:</b> {d.status}
+                  <br />
+                  <b>Bairro:</b> {d.bairro || "Não informado"}
+                  <br />
+                  <b>Tipo:</b> {d.tipo || "Não especificado"}
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        )}
       </div>
     </section>
   );
@@ -143,7 +190,7 @@ function FilterSelect({ label, name, value, onChange, options }) {
       <label>{label}</label>
       <select name={name} value={value} onChange={onChange}>
         {options.map((opt) => (
-          <option key={opt} value={opt}>
+          <option key={opt} value={opt === "Todos os Bairros" ? "" : opt}>
             {opt}
           </option>
         ))}
@@ -159,4 +206,17 @@ function StatusLabel({ cor, texto }) {
       <p>{texto}</p>
     </div>
   );
+}
+
+function getMarkerIcon(status) {
+  let color = "gray";
+  if (status === "Pendente") color = "red";
+  if (status === "Em Andamento") color = "orange";
+  if (status === "Concluído") color = "green";
+
+  return new L.Icon({
+    iconUrl: `https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`,
+    iconSize: [30, 40],
+    iconAnchor: [15, 40],
+  });
 }
