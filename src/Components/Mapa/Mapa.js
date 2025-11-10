@@ -4,7 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Mapa.css";
 
-const API_URL = "http://localhost:8081/denuncias"; // backend Node.js
+const API_URL = "http://localhost:8081/denuncias";
 
 export default function Mapa() {
   const [filter, setFilter] = useState({
@@ -63,11 +63,11 @@ export default function Mapa() {
         cada uma.
       </p>
 
+      <h3>Filtros</h3>
       <form id="form" onSubmit={handleSubmit}>
-        <h3>Filtros</h3>
-
         <FilterSelect
           label="Bairro"
+          class='filtrar'
           name="bairro"
           value={filter.bairro}
           onChange={handleChange}
@@ -86,6 +86,7 @@ export default function Mapa() {
 
         <FilterSelect
           label="Tipo de Denúncia"
+          class='filtrar'
           name="tipo"
           value={filter.tipo}
           onChange={handleChange}
@@ -104,6 +105,7 @@ export default function Mapa() {
 
         <FilterSelect
           label="Status"
+          class='filtrar'
           name="status"
           value={filter.status}
           onChange={handleChange}
