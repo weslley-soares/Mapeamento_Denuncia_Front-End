@@ -21,7 +21,7 @@ export default function Cadastro() {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:8081/usuarios/cadastro", {
+      const res = await fetch("http://localhost:8081/usuarios/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

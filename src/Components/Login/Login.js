@@ -31,7 +31,7 @@ export default function Login() {
         localStorage.setItem("token", data.token);
         setMessage("✅ Login realizado com sucesso!");
         setTimeout(() => {
-          window.location.href = "/dashboard"; // redireciona
+          window.location.href = "/";
         }, 1500);
       } else {
         setMessage("❌ " + (data.message || "Erro ao fazer login"));

@@ -2,6 +2,7 @@ import './App.css';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './Components/Header/Header';
 import Nav from './Components/Nav/Nav';
+import Link from './Components/Link/Link';
 import Footer from './Components/Footer/Footer';
 import Home from './Components/Home/Home';
 import Mapa from './Components/Mapa/Mapa';
@@ -10,6 +11,7 @@ import Contato from './Components/Contato/Contato';
 import Cadastro from './Components/Cadastro/Cadastro';
 import Login from './Components/Login/Login';
 import CadDenuncia from './Components/CadDenuncias/CadDenuncia';
+import GetDenuncia from './Components/GetDenuncia/GetDenuncia';
 
 export default function App() {
 
@@ -29,6 +31,7 @@ export default function App() {
     <body>
         <Header/>
         <Nav/>
+        <Link/>
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/mapa' element={<Mapa/>}/>
@@ -37,6 +40,7 @@ export default function App() {
           <Route path='/cadastro' element={<Cadastro/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/cdenuncia' element={<CadDenuncia/>}/>
+          <Route path='/getdenuncia' element={<GetDenuncia/>}/>
         </Routes>
         <Footer/>
     </body>

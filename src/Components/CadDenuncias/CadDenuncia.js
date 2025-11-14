@@ -1,4 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+  Popup
+} from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
 import "./CadDenuncia.css";
 
 export default function CadastrarDenuncia() {
@@ -12,14 +22,38 @@ export default function CadastrarDenuncia() {
     longitude: "",
   });
 
+  const [markerPos, setMarkerPos] = useState(null);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      window.location.href = "/login";
-    }
-  }, []);
+  // 👉 Função que reage ao clique no mapa
+  function MapClickHandler() {
+    useMapEvents({
+      click(e) {
+        const { lat, lng } = e.latlng;
+
+        // Atualiza marcador
+        setMarkerPos([lat, lng]);
+
+        // Atualiza o formulário
+        setForm((prev) => ({
+          ...prev,
+          latitude: lat,
+          longitude: lng,
+        }));
+      },
+    });
+
+    return null;
+  }
+
+  const icon = L.icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/1483/1483336.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [42, 42],
+  iconAnchor: [21, 42], 
+  popupAnchor: [0, -40],
+  shadowAnchor: [13, 40]
+});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,12 +62,11 @@ export default function CadastrarDenuncia() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
 
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:3333/api/denuncias", {
+      const res = await fetch("http://localhost:8081/denuncias", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,6 +88,7 @@ export default function CadastrarDenuncia() {
           latitude: "",
           longitude: "",
         });
+        setMarkerPos(null);
       } else {
         setMessage("❌ " + (data.message || "Erro ao cadastrar denúncia"));
       }
@@ -66,7 +100,30 @@ export default function CadastrarDenuncia() {
   return (
     <section className="denuncia-section">
       <h1>Cadastrar Nova Denúncia</h1>
-      <p>Preencha os dados abaixo para registrar uma nova denúncia ambiental.</p>
+      <p>Clique no mapa para selecionar a localização da denúncia.</p>
+
+      {/* 🟢 MAPA AQUI */}
+<div className="map-container">
+  <MapContainer
+    center={[-7.12, -34.88]}
+    zoom={13}
+    className="mapa"
+  >
+    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+    <MapClickHandler />
+
+    {markerPos && (
+      <Marker position={markerPos} icon={icon}>
+        <Popup>
+          📍 Local selecionado <br />
+          Lat: {markerPos[0].toFixed(6)} <br />
+          Lng: {markerPos[1].toFixed(6)}
+        </Popup>
+      </Marker>
+    )}
+  </MapContainer>
+</div>
 
       <form onSubmit={handleSubmit} className="form-denuncia">
         <div className="input-group">
@@ -74,7 +131,6 @@ export default function CadastrarDenuncia() {
           <input
             type="text"
             name="titulo"
-            placeholder="Ex: Lixo acumulado em via pública"
             value={form.titulo}
             onChange={handleChange}
             required
@@ -85,7 +141,6 @@ export default function CadastrarDenuncia() {
           <label>Descrição</label>
           <textarea
             name="descricao"
-            placeholder="Descreva o problema ambiental..."
             value={form.descricao}
             onChange={handleChange}
             required
@@ -94,12 +149,7 @@ export default function CadastrarDenuncia() {
 
         <div className="input-group">
           <label>Tipo de Denúncia</label>
-          <select
-            name="tipo"
-            value={form.tipo}
-            onChange={handleChange}
-            required
-          >
+          <select name="tipo" value={form.tipo} onChange={handleChange} required>
             <option value="">Selecione o tipo</option>
             <option value="Descarte Irregular de Lixo">Descarte Irregular de Lixo</option>
             <option value="Poluição Sonora">Poluição Sonora</option>
@@ -116,10 +166,8 @@ export default function CadastrarDenuncia() {
           <input
             type="text"
             name="bairro"
-            placeholder="Informe o bairro"
             value={form.bairro}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -128,7 +176,6 @@ export default function CadastrarDenuncia() {
           <input
             type="text"
             name="endereco"
-            placeholder="Rua, número, ponto de referência..."
             value={form.endereco}
             onChange={handleChange}
           />
@@ -137,32 +184,16 @@ export default function CadastrarDenuncia() {
         <div className="coord-grid">
           <div className="input-group">
             <label>Latitude</label>
-            <input
-              type="number"
-              name="latitude"
-              step="0.000001"
-              value={form.latitude}
-              onChange={handleChange}
-              required
-            />
+            <input type="number" name="latitude" value={form.latitude} readOnly />
           </div>
 
           <div className="input-group">
             <label>Longitude</label>
-            <input
-              type="number"
-              name="longitude"
-              step="0.000001"
-              value={form.longitude}
-              onChange={handleChange}
-              required
-            />
+            <input type="number" name="longitude" value={form.longitude} readOnly />
           </div>
         </div>
 
-        <button type="submit" className="btn-enviar">
-          Cadastrar Denúncia
-        </button>
+        <button type="submit" className="btn-enviar">Cadastrar Denúncia</button>
 
         {message && <p className="msg">{message}</p>}
       </form>

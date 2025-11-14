@@ -1,0 +1,79 @@
+.pesquisar-section {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pesquisar-section h1 {
+  text-align: center;
+  color: #1b3b24;
+}
+
+.pesquisar-section p {
+  text-align: center;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.form-pesquisar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.form-pesquisar input,
+.form-pesquisar select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 180px;
+}
+
+.btn-buscar {
+  background-color: #1b3b24;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-buscar:hover {
+  background-color: #267f4f;
+}
+
+.lista-denuncias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.card-denuncia {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid #ccc;
+}
+
+.card-denuncia h3 {
+  color: #1b3b24;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 600px) {
+  .form-pesquisar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-pesquisar input,
+  .form-pesquisar select {
+    width: 100%;
+  }
+}
