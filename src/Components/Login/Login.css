@@ -31,6 +31,10 @@ form {
 .form-login .input-group {
   text-align: left;
   margin-bottom: 15px;
+
+  input {
+    width: 90%;
+  }
 }
 
 .form-login label {

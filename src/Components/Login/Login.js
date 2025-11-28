@@ -79,6 +79,8 @@ export default function Login() {
         <p className="cadastro-link">
           Não tem conta? <a href="/cadastro">Cadastre-se</a>
         </p>
+
+        <p className="cadastro-link">Voltar: <a href="/">Página inicial</a></p>
       </form>
       </div>
   );

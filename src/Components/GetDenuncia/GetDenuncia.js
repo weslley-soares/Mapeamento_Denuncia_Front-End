@@ -2,33 +2,36 @@ import { useState } from "react";
 import "./GetDenuncia.css";
 
 export default function PesquisarDenuncias() {
-  const [filtros, setFiltros] = useState({
-    protocolo: "",
-    tipo: "",
-    status: "",
-    bairro: "",
-  });
-
+  const [protocolo, setProtocolo] = useState("");
   const [denuncias, setDenuncias] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFiltros((prev) => ({ ...prev, [name]: value }));
-  };
+  const [erro, setErro] = useState("");
 
   const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErro("");
 
-    const query = new URLSearchParams(filtros).toString();
+    if (!protocolo.trim()) {
+      setErro("Digite um protocolo válido.");
+      setLoading(false);
+      return;
+    }
 
     try {
-      const res = await fetch(`http://localhost:8081/denuncias?${query}`);
+      const res = await fetch(`http://localhost:8081/denuncias/${protocolo}`);
+
+      if (!res.ok) {
+        throw new Error("Erro ao buscar denúncia.");
+      }
+
       const data = await res.json();
-      setDenuncias(data);
+
+      setDenuncias(Array.isArray(data) ? data : [data]);
     } catch (err) {
       console.error(err);
+      setErro("Nenhuma denúncia encontrada.");
+      setDenuncias([]);
     } finally {
       setLoading(false);
     }
@@ -36,22 +39,24 @@ export default function PesquisarDenuncias() {
 
   return (
     <section className="pesquisar-section">
-      <h1>Pesquisar Denúncias</h1>
-      <p>Busque denúncias por protocolo, tipo, status ou bairro.</p>
+      <h1>Pesquisar Denúncia</h1>
+      <p>Busque uma denúncia informando o protocolo.</p>
 
       <form onSubmit={handleSearch} className="form-pesquisar">
         <input
           type="text"
           name="protocolo"
-          placeholder="Protocolo"
-          value={filtros.protocolo}
-          onChange={handleChange}
+          placeholder="Digite o protocolo"
+          value={protocolo}
+          onChange={(e) => setProtocolo(e.target.value)}
         />
 
         <button type="submit" className="btn-buscar">
           Buscar
         </button>
       </form>
+
+      {erro && <p className="erro">{erro}</p>}
 
       {loading ? (
         <p>Carregando...</p>
@@ -61,8 +66,10 @@ export default function PesquisarDenuncias() {
             denuncias.map((d) => (
               <div className="card-denuncia" key={d.id}>
                 <h3>{d.titulo}</h3>
-                <p><b>Protocolo:</b> {d.protocolo}</p>
-                <p><b>Data:</b> {new Date(d.data_criacao).toLocaleDateString()}</p>
+                <p><b>Status:</b> {d.status}</p>
+                <p><b>Bairro:</b> {d.bairro}</p>
+                <p><b>Endereço:</b> {d.endereco}</p>
+                <p><b>Descrição:</b> {d.descricao}</p>
               </div>
             ))
           ) : (

@@ -2,7 +2,7 @@ import './App.css';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './Components/Header/Header';
 import Nav from './Components/Nav/Nav';
-import Link from './Components/Link/Link';
+import NavBar from './Components/Link/Link';
 import Footer from './Components/Footer/Footer';
 import Home from './Components/Home/Home';
 import Mapa from './Components/Mapa/Mapa';
@@ -16,33 +16,26 @@ import GetDenuncia from './Components/GetDenuncia/GetDenuncia';
 export default function App() {
 
   const location = useLocation();
-
-  const isCadastro = location.pathname === "/cadastro";
-  const isLogin = location.pathname === "/login";
-
-  if(isCadastro) {
-    return <Cadastro/>
-  }
-  if(isLogin) {
-    return <Login/>
-  }
+  const noLayout = location.pathname === "/cadastro" || location.pathname === "/login";
 
   return (
-    <body>
-        <Header/>
-        <Nav/>
-        <Link/>
-        <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/mapa' element={<Mapa/>}/>
-          <Route path='/sobre' element={<Sobre/>}/>
-          <Route path='/contato' element={<Contato/>}/>
-          <Route path='/cadastro' element={<Cadastro/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/cdenuncia' element={<CadDenuncia/>}/>
-          <Route path='/getdenuncia' element={<GetDenuncia/>}/>
-        </Routes>
-        <Footer/>
-    </body>
+    <div className="App">
+      {!noLayout && <Header />}
+      {!noLayout && <Nav />}
+      {!noLayout && <NavBar />}
+
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/mapa' element={<Mapa />} />
+        <Route path='/sobre' element={<Sobre />} />
+        <Route path='/contato' element={<Contato />} />
+        <Route path='/cadastro' element={<Cadastro />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/cdenuncia' element={<CadDenuncia />} />
+        <Route path='/getdenuncia' element={<GetDenuncia />} />
+      </Routes>
+
+      {!noLayout && <Footer />}
+    </div>
   );
 }

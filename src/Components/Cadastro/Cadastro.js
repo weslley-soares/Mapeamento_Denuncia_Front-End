@@ -100,6 +100,10 @@ export default function Cadastro() {
           <p className="login-link">
             Já tem conta? <a href="/login">Entrar</a>
           </p>
+
+          <p className="login-link">
+            Voltar: <a href="/">Página Inicial</a>
+          </p>
         </form>
       </section>
   );
